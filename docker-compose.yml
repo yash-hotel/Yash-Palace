@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  bot:
+    build: .
+    restart: always
+    working_dir: /app  # ✅ Add this line
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: ["python", "bot/main.py"]  # ✅ Optional override (not needed if in Dockerfile)
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: botgptuser
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: botgptdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

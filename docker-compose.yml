@@ -4,12 +4,14 @@ services:
   bot:
     build: .
     restart: always
-    working_dir: /app  # ✅ Add this line
+    working_dir: /app
     env_file:
       - .env
     depends_on:
       - db
-    command: ["python", "bot/main.py"]  # ✅ Optional override (not needed if in Dockerfile)
+    command: ["python", "bot/main.py"]
+    volumes:
+      - .:/app  # ✅ Yeh ensure karega local changes Docker container me reflect ho
 
   db:
     image: postgres:15
